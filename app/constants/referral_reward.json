@@ -1,0 +1,693 @@
+{
+    "address": "AXXdpEe4mjbwbZUnNpT3X3QH8Bqo65WEqXJqZsSdeffr",
+    "metadata": {
+        "name": "referral_reward",
+        "version": "0.1.0",
+        "spec": "0.1.0",
+        "description": "Created with Anchor"
+    },
+    "instructions": [
+        {
+            "name": "claim_reward",
+            "docs": [
+                "Allows a user to transfer their accumulated pending_rewards from the Vault to their wallet.",
+                "Uses a CPI (Cross-Program Invocation) with the Vault PDA as the signer."
+            ],
+            "discriminator": [
+                149,
+                95,
+                181,
+                242,
+                94,
+                90,
+                158,
+                162
+            ],
+            "accounts": [
+                {
+                    "name": "global_state",
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    115,
+                                    116,
+                                    97,
+                                    116,
+                                    101
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "user_account",
+                    "writable": true,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    117,
+                                    115,
+                                    101,
+                                    114
+                                ]
+                            },
+                            {
+                                "kind": "account",
+                                "path": "user"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "vault",
+                    "writable": true,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    118,
+                                    97,
+                                    117,
+                                    108,
+                                    116
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "mint"
+                },
+                {
+                    "name": "user_token_account",
+                    "writable": true,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account",
+                                "path": "user"
+                            },
+                            {
+                                "kind": "const",
+                                "value": [
+                                    6,
+                                    221,
+                                    246,
+                                    225,
+                                    215,
+                                    101,
+                                    161,
+                                    147,
+                                    217,
+                                    203,
+                                    225,
+                                    70,
+                                    206,
+                                    235,
+                                    121,
+                                    172,
+                                    28,
+                                    180,
+                                    133,
+                                    237,
+                                    95,
+                                    91,
+                                    55,
+                                    145,
+                                    58,
+                                    140,
+                                    245,
+                                    133,
+                                    126,
+                                    255,
+                                    0,
+                                    169
+                                ]
+                            },
+                            {
+                                "kind": "account",
+                                "path": "mint"
+                            }
+                        ],
+                        "program": {
+                            "kind": "const",
+                            "value": [
+                                140,
+                                151,
+                                37,
+                                143,
+                                78,
+                                36,
+                                137,
+                                241,
+                                187,
+                                61,
+                                16,
+                                41,
+                                20,
+                                142,
+                                13,
+                                131,
+                                11,
+                                90,
+                                19,
+                                153,
+                                218,
+                                255,
+                                16,
+                                132,
+                                4,
+                                142,
+                                123,
+                                216,
+                                219,
+                                233,
+                                248,
+                                89
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "user",
+                    "writable": true,
+                    "signer": true
+                },
+                {
+                    "name": "token_program"
+                },
+                {
+                    "name": "associated_token_program",
+                    "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+                },
+                {
+                    "name": "system_program",
+                    "address": "11111111111111111111111111111111"
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "complete_action",
+            "docs": [
+                "Admin-only function to record a completed action and calculate rewards.",
+                "Distributes 70% of reward_amount to Level 1 and 30% to Level 2 (if exists)."
+            ],
+            "discriminator": [
+                180,
+                164,
+                246,
+                107,
+                80,
+                245,
+                248,
+                34
+            ],
+            "accounts": [
+                {
+                    "name": "global_state",
+                    "writable": true,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    115,
+                                    116,
+                                    97,
+                                    116,
+                                    101
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "l1_account",
+                    "writable": true
+                },
+                {
+                    "name": "l2_account",
+                    "writable": true
+                },
+                {
+                    "name": "authority",
+                    "signer": true
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "initialize",
+            "docs": [
+                "Initializes the global configuration and the secure token vault.",
+                "This sets the admin authority, the reward token mint, and stores PDA bumps."
+            ],
+            "discriminator": [
+                175,
+                175,
+                109,
+                31,
+                13,
+                152,
+                155,
+                237
+            ],
+            "accounts": [
+                {
+                    "name": "global_state",
+                    "writable": true,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    115,
+                                    116,
+                                    97,
+                                    116,
+                                    101
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "vault",
+                    "writable": true,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    118,
+                                    97,
+                                    117,
+                                    108,
+                                    116
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "mint"
+                },
+                {
+                    "name": "admin",
+                    "writable": true,
+                    "signer": true
+                },
+                {
+                    "name": "token_program"
+                },
+                {
+                    "name": "system_program",
+                    "address": "11111111111111111111111111111111"
+                },
+                {
+                    "name": "rent",
+                    "address": "SysvarRent111111111111111111111111111111111"
+                }
+            ],
+            "args": [
+                {
+                    "name": "reward_amount",
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "register_user",
+            "docs": [
+                "Creates a new on-chain user profile (UserAccount PDA).",
+                "Stores user metadata and links the user to an optional referrer."
+            ],
+            "discriminator": [
+                2,
+                241,
+                150,
+                223,
+                99,
+                214,
+                116,
+                97
+            ],
+            "accounts": [
+                {
+                    "name": "global_state",
+                    "writable": true,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    115,
+                                    116,
+                                    97,
+                                    116,
+                                    101
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "user_account",
+                    "writable": true,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    117,
+                                    115,
+                                    101,
+                                    114
+                                ]
+                            },
+                            {
+                                "kind": "account",
+                                "path": "user"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "user",
+                    "writable": true,
+                    "signer": true
+                },
+                {
+                    "name": "system_program",
+                    "address": "11111111111111111111111111111111"
+                }
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "referrer",
+                    "type": {
+                        "option": "pubkey"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update_reward",
+            "docs": [
+                "Admin-only function to update the standard reward amount for future actions."
+            ],
+            "discriminator": [
+                62,
+                165,
+                125,
+                122,
+                39,
+                204,
+                160,
+                29
+            ],
+            "accounts": [
+                {
+                    "name": "global_state",
+                    "writable": true,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    115,
+                                    116,
+                                    97,
+                                    116,
+                                    101
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "admin",
+                    "signer": true
+                }
+            ],
+            "args": [
+                {
+                    "name": "new_amount",
+                    "type": "u64"
+                }
+            ]
+        }
+    ],
+    "accounts": [
+        {
+            "name": "GlobalState",
+            "discriminator": [
+                163,
+                46,
+                74,
+                168,
+                216,
+                123,
+                133,
+                98
+            ]
+        },
+        {
+            "name": "UserAccount",
+            "discriminator": [
+                211,
+                33,
+                136,
+                16,
+                186,
+                110,
+                242,
+                127
+            ]
+        }
+    ],
+    "events": [
+        {
+            "name": "ActionCompleted",
+            "discriminator": [
+                208,
+                176,
+                207,
+                42,
+                176,
+                173,
+                214,
+                142
+            ]
+        },
+        {
+            "name": "AdminUpdated",
+            "discriminator": [
+                69,
+                82,
+                49,
+                171,
+                43,
+                3,
+                80,
+                161
+            ]
+        },
+        {
+            "name": "RewardClaimed",
+            "discriminator": [
+                49,
+                28,
+                87,
+                84,
+                158,
+                48,
+                229,
+                175
+            ]
+        },
+        {
+            "name": "UserRegistered",
+            "discriminator": [
+                21,
+                42,
+                216,
+                163,
+                99,
+                51,
+                200,
+                222
+            ]
+        }
+    ],
+    "errors": [
+        {
+            "code": 6000,
+            "name": "AlreadyRegistered",
+            "msg": "Already registered"
+        },
+        {
+            "code": 6001,
+            "name": "Unauthorized",
+            "msg": "Unauthorized"
+        },
+        {
+            "code": 6002,
+            "name": "NothingToClaim",
+            "msg": "Nothing to claim"
+        },
+        {
+            "code": 6003,
+            "name": "NameTooLong",
+            "msg": "Name is too long"
+        }
+    ],
+    "types": [
+        {
+            "name": "ActionCompleted",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "l1_user",
+                        "type": "pubkey"
+                    },
+                    {
+                        "name": "total_distributed",
+                        "type": "u64"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "AdminUpdated",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "new_amount",
+                        "type": "u64"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "GlobalState",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "admin",
+                        "type": "pubkey"
+                    },
+                    {
+                        "name": "mint",
+                        "type": "pubkey"
+                    },
+                    {
+                        "name": "reward_amount",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "total_distributed",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "total_users",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "state_bump",
+                        "type": "u8"
+                    },
+                    {
+                        "name": "vault_bump",
+                        "type": "u8"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "RewardClaimed",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "user",
+                        "type": "pubkey"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "u64"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "UserAccount",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "wallet",
+                        "type": "pubkey"
+                    },
+                    {
+                        "name": "referrer",
+                        "type": "pubkey"
+                    },
+                    {
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "pending_rewards",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "total_earned",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "total_referrals",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "joined_at",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "initialized",
+                        "type": "bool"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "UserRegistered",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "user",
+                        "type": "pubkey"
+                    },
+                    {
+                        "name": "name",
+                        "type": "string"
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* Wallet adapter ki styles manual import karein agar require() kaam nahi kar raha */
+@import "@solana/wallet-adapter-react-ui/styles.css";
+
+:root {
+    --background: #020617;
+    --foreground: #f8fafc;
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+}
